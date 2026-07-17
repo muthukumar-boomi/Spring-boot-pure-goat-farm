@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Goat - Modern Dashboard</title>
+    <link rel="icon" type="image/png" th:href="@{/img/title.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            color: #1f2e28;
+            background-color: #f5f5f0;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: repeat;
+            line-height: 1.5;
+        }
+
+        section, header, .detail-section, .service-box, .hero, .company-intro {
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(2px);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .header {
+            padding: 24px 0;
+            border-bottom: 1px solid #e0e6e2;
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #1b4d3e;
+            letter-spacing: -0.3px;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #1b4d3e;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.2s;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            color: #2d453b;
+        }
+
+        .nav-menu a:hover {
+            color: #FF6B8B !important;
+            border-bottom-color: #FF6B8B;
+        }
+
+        .nav-menu a.nav-product-service {
+            color: #8B4513;
+        }
+
+        .nav-menu a.nav-customer-order {
+            color: #808000;
+        }
+
+        .nav-menu a i {
+            margin-right: 6px;
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: rgba(248, 251, 249, 0.85) !important;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: #1b4d3e;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.1);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            color: #5a3e1b;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 14px 42px;
+            border: 2px solid #1b4d3e;
+            color: #1b4d3e;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 40px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-outline:hover {
+            background: #1b4d3e;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(27,77,62,0.2);
+        }
+
+        .services-section {
+            padding: 80px 0;
+            background-image: url('../img/customer_login.jpg');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .services-section h2 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .service-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .service-box {
+            border: 1px solid #dee9e2;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.95) !important;
+            max-width: 400px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .service-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .service-box h3 {
+            font-size: 28px;
+            color: #1b4d3e;
+            border-bottom: 3px solid #8B4513;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .service-box p {
+            font-size: 18px;
+            color: #4d6257;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .service-box a {
+            color: #8B4513;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .service-box a:hover {
+            color: #FF6B8B;
+        }
+
+        .company-intro {
+            padding: 60px 0;
+            text-align: center;
+            border-bottom: 1px solid #e0e6e2;
+            background: rgba(255, 255, 255, 0.85) !important;
+        }
+
+        .company-intro h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #1b4d3e;
+        }
+
+        .btn-admin {
+            display: inline-block;
+            padding: 14px 48px;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 40px;
+            box-shadow: 0 8px 15px rgba(139, 69, 19, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .products-page {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .products-page h1 {
+            font-size: 42px;
+            margin-bottom: 40px;
+            color: #FF6B8B;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 1px;
+        }
+
+        .goats-header {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2E5C4E;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .breed-list {
+            list-style: none;
+            margin-bottom: 40px;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .breed-list li {
+            padding: 12px 25px;
+            margin: 0;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid #dee9e2;
+            border-radius: 30px;
+            color: #1b4d3e;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .breed-list li:hover {
+            color: #FF6B8B;
+            border-color: #FF6B8B;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255,107,139,0.15);
+        }
+
+        .detail-section {
+            background: rgba(248, 251, 249, 0.95) !important;
+            padding: 30px;
+            border: 1px solid #dee9e2;
+            margin-top: 20px;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            border-radius: 24px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .detail-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2E5C4E;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .breed-image {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 220px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #dee9e2;
+            border-radius: 16px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+
+        .detail-section p {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #3d5b4e;
+        }
+
+        .spec-card {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            border: 1px solid #dee9e2;
+            padding: 20px;
+            text-align: left;
+            font-size: 14px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .payment-btn a {
+            max-width: 250px;
+            margin: 30px auto 0;
+            display: block;
+            background: linear-gradient(135deg, #FF6B8B 0%, #FF8E9F 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(255, 107, 139, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .payment-btn a:hover {
+            background: linear-gradient(135deg, #FF4F7B 0%, #FF7A8F 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(255, 107, 139, 0.4);
+        }
+
+        .detail-section h3 {
+            color: #1b4d3e;
+            margin: 20px 0 10px;
+            font-size: 18px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee9e2;
+        }
+
+        .spec-sub {
+            color: #6d8277;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .footer-wrapper {
+            background-image: url('../img/welcome_page.jpg');
+            width: 100%;
+        }
+
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            color: white;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .footer i {
+            color: #FF6B8B;
+        }
+
+        .footer a {
+            color: #FF6B8B;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 800px) {
+            .service-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-menu {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-goat"></i> Pure Goat
+            </div>
+            <nav class="nav-menu">
+                <a href="#home"><i class="fas fa-home"></i> Home</a>
+                <br>
+                <a href="#products" class="nav-product-service"><i class="fas fa-box"></i> Products</a>
+                <a href="#services-section" class="nav-product-service scroll-link"><i class="fas fa-hand-holding-heart"></i> Services</a>
+                <br>
+                <a href="customer_list" class="nav-customer-order"><i class="fas fa-users"></i> Customers</a>
+                <a href="payment_list" class="nav-customer-order"><i class="fas fa-shopping-cart"></i> orders</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home">
+        <div class="hero">
+            <div class="container">
+                <h1>Become a Pure Goat Customer Today</h1>
+                <p>Register now to access premium live stock, exclusive farm offers, and personalized service.</p>
+                <a href="customer_register" class="btn-outline">Join Our Family</a>
+            </div>
+        </div>
+
+        <div id="services-section" class="services-section">
+            <div class="container">
+                <h2 style="font-size: 28px; margin-bottom: 30px;">Our services</h2>
+                <div class="service-row">
+            <div class="service-box">
+    <h3>Product</h3>
+    <p>High-quality goats and livestock products. Purebred Saanen, Alpine, Nubian, and Boer available for sale.</p>
+    <a href="product_catalog"> →</a>
+</div>
+                    <div class="service-box">
+    <h3>Breed</h3>
+    <p>Expert breeding programs for all goat breeds. We help you develop healthy, high-quality livestock.</p>
+    <a href="goat_breed_form"> →</a>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="company-intro">
+            <div class="container">
+                <h2>Authorized Personnel Only</h2>
+                <a href="employee_login" class="btn-admin">View Records</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" style="display: none;">
+        <!-- Removed duplicate id="products" from the inner div -->
+        <div class="container products-page">
+            <h1>Products</h1>
+            <div class="goats-header">GOATS</div>
+            <ul class="breed-list">
+                <li onclick="showBreed('saanen')">Saanen</li>
+                <li onclick="showBreed('alpine')">Alpine</li>
+                <li onclick="showBreed('nubian')">Anglo-Nubian</li>
+                <li onclick="showBreed('boer')">Boer</li>
+            </ul>
+
+            <div class="detail-section" id="breedDetail">
+                <h2>Saanen</h2>
+                <div class="breed-image" style="background-image: url('../img/sannen.jpg');"></div>
+                <h3>Saanen goats are known for outstanding milk production</h3>
+                <p>The Saanen goat originates from the Saanen Valley in Switzerland. They are the largest of the Swiss breeds and are often called the "Holstein of the dairy goat world" due to their high milk production.</p>
+                <p>Saanens are docile, calm, and adaptable to various climates, making them popular worldwide for commercial dairy.</p>
+
+                <h3>Saanen specifications</h3>
+                <div class="spec-card">
+                    <div class="spec-item"><span>Buck weight</span><span>80–90 kg</span></div>
+                    <div class="spec-sub">The weight of a full-grown male</div>
+                    <div class="spec-item"><span>Doe weight</span><span>60–70 kg</span></div>
+                    <div class="spec-sub">The weight of a full-grown female</div>
+                    <div class="spec-item"><span>Milk yield</span><span>800–1000 L/year</span></div>
+                    <div class="spec-sub">Average annual production</div>
+                </div>
+
+                <h3>History of the Saanen</h3>
+                <p>The Saanen breed was developed in the Saanen Valley of Switzerland and has been exported worldwide for its exceptional milk production.</p>
+
+                <br><br>
+                <div class="payment-btn"><a href="payment_add">Make Payment</a></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-wrapper">
+        <div class="footer">
+            &copy; 2026 Pure Goat - Modern Dashboard. All rights reserved. Made with <i class="fas fa-heart"></i> Me.
+            <br>
+        </div>
+    </div>
+
+    <script>
+        // Navigation for regular hash links (Home, Products) – they hide/show sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            if (anchor.classList.contains('scroll-link')) {
+                return; 
+            }
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                document.querySelectorAll('section[id]').forEach(s => s.style.display = 'none');
+                if (targetId === 'home') document.getElementById('home').style.display = 'block';
+                else if (targetId === 'products') document.getElementById('products').style.display = 'block';
+            });
+        });
+        
+        // Handler for scroll-link (Services) – shows home if hidden, then scrolls to target
+        document.querySelectorAll('a.scroll-link[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1); // "services-section"
+                const homeSection = document.getElementById('home');
+                
+                // If home is hidden, show it (and hide others)
+                if (homeSection.style.display === 'none') {
+                    document.querySelectorAll('section[id]').forEach(s => s.style.display = 'none');
+                    homeSection.style.display = 'block';
+                }
+                
+                // Scroll to the target element inside home
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Function to show the correct section based on URL hash when page loads
+        function showSectionFromHash() {
+            const hash = window.location.hash.substring(1); // remove '#'
+            const homeSection = document.getElementById('home');
+            const productsSection = document.getElementById('products');
+            
+            // Hide all sections first
+            document.querySelectorAll('section[id]').forEach(s => s.style.display = 'none');
+            
+            if (hash === 'products') {
+                productsSection.style.display = 'block';
+            } else if (hash === 'services-section') {
+                homeSection.style.display = 'block';
+                // Scroll to services-section after a tiny delay to ensure layout
+                setTimeout(() => {
+                    const target = document.getElementById('services-section');
+                    if (target) target.scrollIntoView();
+                }, 50);
+            } else {
+                // default to home
+                homeSection.style.display = 'block';
+            }
+        }
+
+        // Run on page load
+        window.addEventListener('load', showSectionFromHash);
+        
+        // Also run if hash changes (e.g., user manually changes URL)
+        window.addEventListener('hashchange', showSectionFromHash);
+
+        // Breed data and showBreed function (unchanged)
+        const breeds = {
+            saanen: {
+                title: 'Saanen',
+                image: '../img/sannen.jpg',
+                desc: '<h3>Saanen goats are known for outstanding milk production</h3><p>The Saanen goat originates from the Saanen Valley in Switzerland. They are the largest of the Swiss breeds and are often called the "Holstein of the dairy goat world" due to their high milk production.</p>',
+                specs: '<div class="spec-item"><span>Buck weight</span><span>80–90 kg</span></div><div class="spec-sub">The weight of a full-grown male</div><div class="spec-item"><span>Doe weight</span><span>60–70 kg</span></div><div class="spec-sub">The weight of a full-grown female</div><div class="spec-item"><span>Milk yield</span><span>800–1000 L/year</span></div><div class="spec-sub">Average annual production</div>',
+                history: 'The Saanen breed was developed in the Saanen Valley of Switzerland and has been exported worldwide for its exceptional milk production.'
+            },
+            alpine: {
+                title: 'Alpine',
+                image: '../img/alphine.jpg',
+                desc: '<h3>Alpine breed has excellent adaptability to cold temperatures</h3><p>Among the main characteristics of the Alpine goat, an important advantage is its excellent adaptability to cold temperatures. The Alpine originally lived in a cold and harsh environment in the Swiss Alps and has a dense undercoat that protects the goat from frost.</p>',
+                specs: '<div class="spec-item"><span>Buck weight</span><span>75–80 kg</span></div><div class="spec-sub">The weight of a full-grown male</div><div class="spec-item"><span>Doe weight</span><span>60–65 kg</span></div><div class="spec-sub">The weight of a full-grown female</div><div class="spec-item"><span>Kid weight</span><span>3.6 kg</span></div><div class="spec-sub">The weight of new-born kids</div>',
+                history: 'The Alpine breed, sometimes referred to as the French Alpine, is one of the ancient goat breeds, that was spontaneously bred in the Swiss Alps, influenced by the genes of local French, Italian, and Spanish breeds.'
+            },
+            nubian: {
+                title: 'Anglo-Nubian',
+                image: '../img/nubian.jpg',
+                desc: '<h3>Anglo-Nubian goats are known for their rich milk</h3><p>The Anglo-Nubian is a British breed of domestic goat. It originated in the nineteenth century from cross-breeding between native British goats and a mixed population of large lop-eared goats imported from India, the Middle East and North Africa.</p>',
+                specs: '<div class="spec-item"><span>Buck weight</span><span>80–100 kg</span></div><div class="spec-sub">The weight of a full-grown male</div><div class="spec-item"><span>Doe weight</span><span>60–80 kg</span></div><div class="spec-sub">The weight of a full-grown female</div><div class="spec-item"><span>Milk fat</span><span>4-5%</span></div><div class="spec-sub">High butterfat content</div>',
+                history: 'The Anglo-Nubian breed was developed in England through cross-breeding with goats from Africa, India, and the Middle East.'
+            },
+            boer: {
+                title: 'Boer',
+                image: '../img/boer.jpg',
+                desc: '<h3>Boer goats are the premier meat breed</h3><p>The Boer goat was developed in South Africa in the early 1900s specifically for meat production. They are characterized by a white body with a red head, large size, fast growth rate, and excellent carcass quality.</p>',
+                specs: '<div class="spec-item"><span>Buck weight</span><span>110–135 kg</span></div><div class="spec-sub">The weight of a full-grown male</div><div class="spec-item"><span>Doe weight</span><span>80–100 kg</span></div><div class="spec-sub">The weight of a full-grown female</div><div class="spec-item"><span>Kid weight (3 months)</span><span>25–30 kg</span></div><div class="spec-sub">Fast growth rate</div>',
+                history: 'The Boer goat breed was developed by Dutch farmers in South Africa. The name "Boer" means farmer in Dutch.'
+            }
+        };
+
+        
+        function showBreed(breedKey) {
+            const breed = breeds[breedKey];
+            if (!breed) return;
+            const detailDiv = document.getElementById('breedDetail');
+            detailDiv.innerHTML = `
+                <h2>${breed.title}</h2>
+                <div class="breed-image" style="background-image: url('${breed.image}');"></div>
+                ${breed.desc}
+                <h3>${breed.title} specifications</h3>
+                <div class="spec-card">${breed.specs}</div>
+                <h3>History of the ${breed.title}</h3>
+                <p>${breed.history}</p>
+                <br><br>
+                <div class="payment-btn"><a href="payment_add">Make Payment</a></div>
+            `;
+        }
+    </script>
+</body>
+</html>

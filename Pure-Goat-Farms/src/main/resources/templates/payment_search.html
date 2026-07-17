@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Records</title>
+    <link rel="icon" type="image/png" th:href="@{/img/title.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-header {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20, #2e7d32);
+            color: white;
+            padding: 20px 30px;
+        }
+        .btn-light {
+            background: rgba(255,255,255,0.9);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-light:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+        .table thead th {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #1b5e20;
+            font-weight: 600;
+            border-bottom: 2px solid #2e7d32;
+        }
+        .badge-purpose {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        .purpose-breeding { background: #ffd54f; color: #000; }
+        .purpose-meat { background: #ef5350; color: white; }
+        .purpose-dairy { background: #42a5f5; color: white; }
+        .btn-group .btn { border-radius: 50px !important; margin: 0 3px; }
+        .stats-card {
+            border-radius: 15px;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .stats-card:hover { transform: translateY(-5px); }
+        .stats-card i { font-size: 1.5rem; margin-bottom: 5px; }
+        .stats-card h6 { font-size: 0.9rem; margin-bottom: 2px; }
+        .stats-card h3 { font-size: 1.5rem; margin: 0; }
+        .home-btn {
+            background: linear-gradient(135deg, #1976d2, #0d47a1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            height: 100%;
+        }
+        .home-btn:hover {
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+            color: white;
+        }
+        .search-card { background: transparent; border-radius: 10px; border: none; }
+        .search-card .card-body { padding: 10px; }
+        .search-input {
+            border-radius: 30px 0 0 30px;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+            height: 40px;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+        }
+        .search-input:focus {
+            border-color: #2e7d32;
+            box-shadow: none;
+            outline: none;
+        }
+        .search-button {
+            border-radius: 0 30px 30px 0;
+            height: 40px;
+            background: transparent;
+            border: 2px solid #2e7d32;
+            border-left: none;
+            color: #2e7d32;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+        .search-button:hover {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+        }
+        .search-button i { font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .card-header h3 { font-size: 20px; }
+            .btn-light { padding: 6px 15px; font-size: 0.9rem; }
+            .search-input { border-radius: 30px; border-right: 2px solid #e0e0e0; margin-bottom: 10px; }
+            .search-button { border-radius: 30px; width: 100%; border-left: 2px solid #2e7d32; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Farm Header -->
+        <div class="text-center mb-4">
+            <i class="fas fa-tree" style="color: #2e7d32; font-size: 24px; margin: 0 10px;"></i>
+            <i class="fas fa-goat" style="color: #2e7d32; font-size: 32px; margin: 0 10px;"></i>
+            <i class="fas fa-tree" style="color: #2e7d32; font-size: 24px; margin: 0 10px;"></i>
+        </div>
+        
+        <div class="card shadow-lg">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-credit-card me-3"></i><span>Payment Records</span></h3>
+            </div>
+            <div class="card-body">
+                <!-- Messages -->
+                <div th:if="${msg}" class="alert alert-success alert-dismissible fade show">
+                    <i class="fas fa-check-circle me-2"></i> <span th:text="${msg}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <div th:if="${err}" class="alert alert-danger alert-dismissible fade show">
+                    <i class="fas fa-exclamation-triangle me-2"></i> <span th:text="${err}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mx-auto">
+                        <div class="search-card">
+                            <div class="card-body">
+                                <form th:action="@{/payment_search1}" method="get" class="row g-0">
+                                    <div class="col-8 col-md-9">
+                                        <input type="text" name="name" class="form-control search-input" 
+                                               placeholder="Search by customer name..." th:value="${param.name}">
+                                    </div>
+                                    <div class="col-4 col-md-3">
+                                        <button type="submit" class="btn search-button w-100">
+                                            <i class="fas fa-search me-1"></i> Find
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><i class="fas fa-user me-1"></i>Name</th>
+                                <th><i class="fas fa-phone me-1"></i>Mobile</th>
+                                <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                <th><i class="fas fa-bullseye me-1"></i>Purpose</th>
+                                <th><i class="fas fa-venus-mars me-1"></i>Gender</th>
+                                <th><i class="fas fa-hashtag me-1"></i>Qty</th>
+                                <th><i class="fas fa-credit-card me-1"></i>Payment</th>
+                                <th><i class="fas fa-calendar me-1"></i>Order Date</th>
+                                <th><i class="fas fa-clock me-1"></i>Time</th>
+                                <th><i class="fas fa-truck me-1"></i>Delivery</th>
+                                <th>Total</th>
+                                <th><i class="fas fa-cog me-1"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- FIXED: Null‑safe iteration with Elvis operator -->
+                            <tr th:each="payment, stat : ${payments ?: {}}">
+                                <td><span class="badge bg-secondary" th:text="${stat.count}">1</span></td>
+                                <td class="fw-bold" th:text="${payment.name}">John Doe</td>
+                                <td th:text="${payment.mobile}">9876543210</td>
+                                <td th:text="${payment.email}">john@example.com</td>
+                                <td>
+                                    <span class="badge-purpose" 
+                                          th:classappend="${payment.purpose == 'Breeding'} ? 'purpose-breeding' : 
+                                                          (${payment.purpose == 'Meat'} ? 'purpose-meat' : 
+                                                          (${payment.purpose == 'Dairy'} ? 'purpose-dairy' : ''))"
+                                          th:text="${payment.purpose}">Breeding</span>
+                                </td>
+                                <td th:text="${payment.gender}">Male</td>
+                                <td th:text="${payment.qty}">2</td>
+                                <td><span class="badge bg-info" th:text="${payment.pmethod}">Cash</span></td>
+                                <td th:text="${payment.odate}">2026-02-13</td>
+                                <td th:text="${payment.otime}">10:30</td>
+                                <td th:text="${payment.ddate}">2026-02-20</td>
+                                <td class="fw-bold text-success" th:text="'₹' + ${payment.total}">₹5,000</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a th:href="@{/payment_edit(name=${payment.name})}"
+                                           class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                        <form th:action="@{/deletePayment}" method="post" style="display: inline;" 
+                                              onsubmit="return confirm('Delete this payment record?');">
+                                            <input type="hidden" name="name" th:value="${payment.name}" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                        <a th:href="@{/generate_pdf(name=${payment.name})}"
+                                           class="btn btn-outline-info" title="Download PDF"><i class="fas fa-file-pdf"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- FIXED: Condition now also handles null -->
+                            <tr th:if="${#lists.isEmpty(payments ?: {})}">
+                                <td colspan="13" class="text-center py-5 text-muted">
+                                    <i class="fas fa-credit-card fa-4x mb-3" style="color: #2e7d32;"></i>
+                                    <h5>No Payment Records Found</h5>
+                                    <p>Try a different search or add a new payment.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Cards -->
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-2 mb-2" th:if="${!#lists.isEmpty(payments ?: {})}">
+                        <div class="stats-card bg-success">
+                            <i class="fas fa-credit-card"></i>
+                            <h6>Total Payments</h6>
+                            <h3 th:text="${#lists.size(payments ?: {})}">0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <a th:href="@{/}" class="home-btn"><i class="fas fa-home"></i><span style="font-size: 1.2rem; font-weight: 600;">Home</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <span><i class="fas fa-clock me-2"></i> Last updated: 
+                    <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}"></span>
+                </span>
+                <span class="mx-3">|</span>
+                <span><i class="fas fa-goat me-2"></i> Pure Goat Farm</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                if (bsAlert) bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

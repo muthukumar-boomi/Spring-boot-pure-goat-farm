@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <link rel="icon" type="image/png" th:href="@{/img/title.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f5fe;
+            background-image: url('../img/customer_register.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #1e2b3a;
+            line-height: 1.6;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            padding: 30px 30px;
+            border-radius: 24px;
+            box-shadow: 0 25px 40px -12px rgba(0, 30, 60, 0.35);
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Centered main heading with extra bottom spacing */
+        .main-heading {
+            text-align: center;
+            color: #0b2f5c;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .main-heading i {
+            color: #fdb44b;
+            background: rgba(0,102,170,0.1);
+            padding: 8px 12px;
+            border-radius: 50%;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #bdd3f0;
+        }
+        
+        .section-title {
+            color: #0b2f5c;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #fdb44b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .section-title i {
+            color: #0066aa;
+            background: rgba(0,102,170,0.1);
+            padding: 6px 8px;
+            border-radius: 12px;
+        }
+        
+        /* All rows inside the section get a reduced max-width and are centered */
+        .form-section .form-row {
+            max-width: 500px;      /* Controls overall width of each row */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        
+        .form-group {
+            flex: 1 1 calc(50% - 8px);   /* For two-column rows */
+            min-width: 200px;
+        }
+        
+        /* For rows that should have a single column (email, address) */
+        .form-group.single-col {
+            flex: 1 1 100%;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #1e3b5c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+        }
+        
+        label i {
+            color: #1f5882;
+            width: 18px;
+            text-align: center;
+            font-size: 15px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #c4284b;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #d4e0f0;
+            border-radius: 14px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background-color: white;
+            color: #1a2634;
+            font-weight: 500;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #1f6fb0;
+            box-shadow: 0 0 0 4px rgba(0, 97, 168, 0.15);
+            outline: none;
+            background-color: #ffffff;
+        }
+        
+        ::placeholder {
+            color: #8a9bb5;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 6px 12px rgba(0, 30, 60, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(145deg, #163a5f, #0e4b7a);
+            color: white;
+            border: 1px solid #3773a8;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(145deg, #0e4b7a, #163a5f);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -8px #0b2f5c80;
+        }
+        
+        .back-btn {
+            background-color: #eef3fa;
+            color: #1e3b5c;
+            border: 1px solid #b9cfec;
+        }
+        
+        .back-btn:hover {
+            background-color: #dde6f3;
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn i, .back-btn i {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-section .form-row {
+                max-width: 100%;   /* Remove the max-width on small screens */
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .form-group {
+                flex: 1 1 100%;
+            }
+            .btn-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            button {
+                width: 100%;
+                padding: 12px 20px;
+            }
+            .form-container {
+                padding: 20px 16px;
+            }
+            .section-title {
+                font-size: 1.2rem;
+            }
+            .main-heading {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <!-- Centered main heading -->
+            <div class="main-heading">
+                Customer Register 
+            </div>
+
+            <form action="/customer_register" method="post">
+                <!-- Single Account Information Section -->
+                <section class="form-section">
+                    <h2 class="section-title"><i class="fas fa-user-circle"></i> Customer Information</h2>
+                    
+                    <!-- Row 1: Customer Name and Mobile (two columns within narrow container) -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name" class="required">
+                                <i class="fas fa-user"></i> Customer name
+                            </label>
+                            <input type="text" id="name" name="name" required placeholder="Your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile" class="required">
+                                <i class="fas fa-phone-alt"></i> Mobile Number
+                            </label>
+                            <input type="tel" id="mobile" name="mobile" required placeholder="Enter 10-digit mobile">
+                        </div>
+                    </div>
+                    
+                    <!-- Row 2: Email (single column, same width as each field above) -->
+                    <div class="form-row">
+                        <div class="form-group single-col">
+                            <label for="email" class="required">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        </div>
+                    </div>
+                    
+                    <!-- Row 3: Address (single column, same width) -->
+                    <div class="form-row">
+                        <div class="form-group single-col">
+                            <label for="address" class="required">
+                                <i class="fas fa-home"></i> Address
+                            </label>
+                            <textarea id="address" name="address" rows="3" required placeholder="House no., street, city, PIN"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Form Actions -->
+                <div class="btn-container">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Register
+                    </button>
+                    <button type="button" class="back-btn" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left"></i> Home
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body> 
+</html>

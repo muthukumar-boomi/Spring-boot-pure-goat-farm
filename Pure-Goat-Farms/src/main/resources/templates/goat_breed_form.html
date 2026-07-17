@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Goat Breed Page</title>
+    <link rel="icon" type="image/png" th:href="@{/img/title.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            /* FIXED: Absolute path from root */
+            background-image: url('/img/breed.jpg');  
+            min-height: 100vh;
+            padding: 30px 20px; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-position: center;      
+            background-size: cover;           
+            background-repeat: no-repeat; 
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card-header { 
+            background: linear-gradient(135deg, #2e7d32, #1b5e20, #2e7d32); 
+            background-size: 200% 200%;
+            animation: gradient 5s ease infinite;
+            color: white; 
+            padding: 20px 25px;
+            border-bottom: none;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-header h4 {
+            font-size: 24px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .card-header i {
+            font-size: 28px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .card-body {
+            padding: 30px;
+            background: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-label { 
+            font-weight: 600; 
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .form-label i {
+            color: #2e7d32;
+            font-size: 14px;
+            width: 18px;
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-control, .form-select {
+            height: 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 8px 15px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            width: 100%;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .form-control:hover, .form-select:hover {
+            border-color: #2e7d32;
+            background: white;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            opacity: 1;
+            height: 24px;
+            margin-right: 5px;
+        }
+        
+        .required::after { 
+            content: " *"; 
+            color: #dc3545; 
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2e7d32;
+            font-size: 16px;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .input-group .form-control[type=number] {
+            padding-right: 35px;
+        }
+        
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #2e7d32, transparent);
+            margin: 25px 0;
+            opacity: 0.3;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+        }
+        
+        .btn-success:hover i {
+            transform: scale(1.1);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+            background: linear-gradient(135deg, #495057, #6c757d);
+        }
+        
+        .btn-secondary:hover i {
+            transform: translateX(-5px);
+        }
+        
+        .btn-home {
+            background: linear-gradient(135deg, #1976d2, #0d47a1);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
+        }
+        
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(25, 118, 210, 0.5);
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            color: white;
+        }
+        
+        .btn-home:hover i {
+            transform: scale(1.1);
+        }
+        
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 12px 18px;
+            animation: slideInAlert 0.4s ease-out;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes slideInAlert {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+        }
+        
+        .row.g-4 > [class*="col-"] {
+            margin-bottom: 12px;
+        }
+        
+        ::placeholder {
+            color: #adb5bd;
+            opacity: 0.7;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 768px) {
+            .card-body { padding: 20px; }
+            .card-header h4 { font-size: 20px; }
+            .btn { width: 100%; justify-content: center; }
+            .d-flex { flex-direction: column-reverse; gap: 10px; }
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(46, 125, 50, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(27, 94, 32, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        [data-tooltip] {
+            position: relative;
+            cursor: help;
+        }
+        
+        [data-tooltip]:before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            background: #333;
+            color: white;
+            font-size: 12px;
+            border-radius: 5px;
+            white-space: nowrap;
+            display: none;
+            z-index: 1000;
+        }
+        
+        [data-tooltip]:hover:before {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h4 class="mb-0 d-flex align-items-center">
+                    <i class="fas fa-goat me-3"></i> 
+                    <span>Add New Goat Breed</span>
+                </h4>
+            </div>
+            <div class="card-body">
+                <!-- Error/Success Messages -->
+                <div th:if="${err}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> 
+                    <strong>Error!</strong> <span th:text="${err}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <div th:if="${msg}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> 
+                    <strong>Success!</strong> <span th:text="${msg}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <form id="breedForm" th:action="@{/goat/breed/insert}" method="post">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-tag"></i> Breed Name
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="name" class="form-control" 
+                                           placeholder="e.x. Boer, Saanen, Nubian" required
+                                           data-tooltip="Enter the official breed name">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-barcode"></i> Breed Code
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="code" class="form-control" 
+                                           placeholder="e.x. BR001, SA002" required
+                                           data-tooltip="Unique code for the breed">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-globe-asia"></i> Origin
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" name="orgin" class="form-control" 
+                                           placeholder="e.x. South Africa, India, Switzerland" required
+                                           data-tooltip="Country or region of origin">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-bullseye"></i> Purpose
+                                </label>
+                                <div class="input-group">
+                                    <select name="purpose" class="form-select" required>
+                                        <option value="">Select Purpose</option>
+                                        <option value="Meat">Meat</option>
+                                        <option value="Dual">Dual Purpose</option>
+                                    
+                                    </select>
+                                    <i class="fas fa-chevron-down input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-weight-scale"></i> Weight (kg)
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" name="weight" class="form-control" 
+                                           placeholder="e.x. 50-80" required
+                                           step="1" min="0"
+                                           data-tooltip="Average weight range in kg">
+                                    <i class="fas fa-weight-scale input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-ruler-vertical"></i> Height (cm)
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" name="height" class="form-control" 
+                                           placeholder="e.x. 60-75" required
+                                           step="1" min="0"
+                                           data-tooltip="Average height range in cm">
+                                    <i class="fas fa-ruler-vertical input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label required">
+                                    <i class="fas fa-layer-group"></i> Stacks
+                                </label>
+                                <div class="input-group">
+                                    <input type="number" name="stack" class="form-control" 
+                                           placeholder="e.x. 5,10" required
+                                           step="1" min="0"
+                                           data-tooltip="Number of stacks">
+                                    <i class="fas fa-cubes input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="text-center mb-4">
+                        <i class="fas fa-tree" style="color: #2e7d32; margin: 0 10px;"></i>
+                        <i class="fas fa-goat" style="color: #2e7d32; margin: 0 10px;"></i>
+                        <i class="fas fa-tree" style="color: #2e7d32; margin: 0 10px;"></i>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Breed
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-undo"></i> Clear
+                        </button>
+                        <a th:href="@{/#services-section}" class="btn-home">
+                            <i class="fas fa-home"></i> Close
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+            });
+        }, 5000);
+        
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            input.addEventListener('focus', function() {
+                const icon = this.parentElement.querySelector('.input-icon');
+                if (icon) icon.style.opacity = '1';
+            });
+            
+            input.addEventListener('blur', function() {
+                const icon = this.parentElement.querySelector('.input-icon');
+                if (icon) icon.style.opacity = '0.7';
+            });
+        });
+
+        function resetForm() {
+            document.getElementById('breedForm').reset();
+        }
+        
+        console.log('%c🐐 Pure Goat Farms - Add New Breed 🐐', 'color: #2e7d32; font-size: 16px; font-weight: bold;');
+    </script>
+</body>
+</html>

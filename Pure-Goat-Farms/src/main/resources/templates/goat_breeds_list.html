@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goat Breeds Record</title>
+    <link rel="icon" type="image/png" th:href="@{/img/title.png}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-header {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20, #2e7d32);
+            background-size: 200% 200%;
+            animation: gradientBG 8s ease infinite;
+            color: white;
+            padding: 20px 30px;
+            border-bottom: none;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .card-header h3 {
+            font-size: 28px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-light {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-light:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+        }
+        .btn-light i { color: #2e7d32; }
+        .table thead th {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #1b5e20;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #2e7d32;
+            padding: 15px 10px;
+        }
+        .table tbody tr:hover {
+            background: rgba(46, 125, 50, 0.05);
+            transform: scale(1.01);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .badge-purpose {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.85em;
+            font-weight: 600;
+            background-color: #ff8f00;
+            color: white;
+        }
+        .badge-secondary {
+            background: #6c757d;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        .stats-badge {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .btn-group .btn {
+            border-radius: 50px !important;
+            margin: 0 3px;
+            padding: 6px 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary {
+            border-color: #2e7d32;
+            color: #2e7d32;
+        }
+        .btn-outline-primary:hover {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-color: #2e7d32;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(46, 125, 50, 0.3);
+            color: white;
+        }
+        .btn-outline-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(220, 53, 69, 0.3);
+        }
+        .alert {
+            border-radius: 50px;
+            border: none;
+            padding: 15px 20px;
+            animation: slideInAlert 0.4s ease-out;
+        }
+        @keyframes slideInAlert {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .card-footer {
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            padding: 15px;
+        }
+        
+        .search-card {
+            background: transparent;
+            border-radius: 10px;
+            border: none;
+        }
+        .search-card .card-body { padding: 10px; }
+        .search-input {
+            border-radius: 30px 0 0 30px;
+            border: 2px solid #e0e0e0;
+            border-right: none;
+            height: 40px;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+        }
+        .search-input:focus {
+            border-color: #2e7d32;
+            box-shadow: none;
+            outline: none;
+        }
+        .search-button {
+            border-radius: 0 30px 30px 0;
+            height: 40px;
+            background: transparent;
+            border: 2px solid #2e7d32;
+            border-left: none;
+            color: #2e7d32;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+        .search-button:hover {
+            background: #2e7d32;
+            color: white;
+            border-color: #2e7d32;
+        }
+        .search-button i { font-size: 0.9rem; }
+
+        .home-btn {
+            background: linear-gradient(135deg, #1976d2, #0d47a1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            height: 100%;
+        }
+        .home-btn:hover {
+            background: linear-gradient(135deg, #0d47a1, #1976d2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .card-header h3 { font-size: 20px; }
+            .btn-light { padding: 6px 15px; font-size: 0.9rem; }
+            .search-input { border-radius: 30px; border-right: 2px solid #e0e0e0; margin-bottom: 10px; }
+            .search-button { border-radius: 30px; width: 100%; border-left: 2px solid #2e7d32; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Farm Header Decoration -->
+        <div class="text-center mb-3">
+            <i class="fas fa-tree" style="color: #2e7d32; font-size: 22px; margin: 0 8px;"></i>
+            <i class="fas fa-goat" style="color: #2e7d32; font-size: 28px; margin: 0 8px;"></i>
+            <i class="fas fa-tree" style="color: #2e7d32; font-size: 22px; margin: 0 8px;"></i>
+        </div>
+        
+        <!-- Main Card -->
+        <div class="card shadow-lg">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">
+                    <i class="fas fa-goat me-3"></i>
+                    <span>Goat Breeds</span>
+                </h3>
+                <a th:href="@{/goat/breed/new}" class="btn btn-light btn-sm" style="padding: 6px 15px; font-size: 0.9rem;">
+                    <i class="fas fa-plus-circle me-2"></i> Add New Breed
+                </a>
+            </div>
+
+            <div class="card-body">
+                <!-- Success/Error Messages -->
+                <div th:if="${msg}" class="alert alert-success alert-dismissible fade show" role="alert" style="padding: 12px 15px; font-size: 0.9rem;">
+                    <i class="fas fa-check-circle me-2"></i> 
+                    <strong>Success!</strong> <span th:text="${msg}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" style="padding: 8px;"></button>
+                </div>
+                <div th:if="${err}" class="alert alert-danger alert-dismissible fade show" role="alert" style="padding: 12px 15px; font-size: 0.9rem;">
+                    <i class="fas fa-exclamation-triangle me-2"></i> 
+                    <strong>Error!</strong> <span th:text="${err}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" style="padding: 8px;"></button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mx-auto">
+                        <div class="search-card">
+                            <div class="card-body">
+                                <form th:action="@{/goat/breed/search}" method="get" class="row g-0">
+                                    <div class="col-8 col-md-9">
+                                       <input type="text" name="name" class="form-control search-input" 
+                                              placeholder="Search breeds by name..." th:value="${searchTerm}">
+                                    </div>
+                                    <div class="col-4 col-md-3">
+                                        <button type="submit" class="btn search-button w-100">
+                                            <i class="fas fa-search me-1"></i> Find
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goat Breeds Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle" style="font-size: 0.9rem;">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Breed Name</th>
+                                <th>Code</th>
+                                <th>Origin</th>
+                                <th>Purpose</th>
+                                <th>Weight</th>
+                                <th>Height</th>
+                                <th>Stacks</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="breed, stat : ${breeds}">
+                                <td><span class="badge bg-secondary" th:text="${stat.count}" style="font-size: 0.8rem;">1</span></td>
+                                <td class="fw-bold" th:text="${breed.name}">Boer</td>
+                                <td><code th:text="${breed.code}" style="font-size: 0.85rem;">BG001</code></td>
+                                <td th:text="${breed.orgin}">South Africa</td>
+                                <td>
+                                    <span class="badge-purpose" th:text="${breed.purpose}">Meat</span>
+                                </td>
+                                <td th:text="${breed.weight}">80-100</td>
+                                <td th:text="${breed.height}">70-85</td>
+                                <td>
+                                    <span class="stats-badge" th:text="${breed.stack}">5</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <!-- Edit button -->
+                                        <a th:href="@{/goat/breed/edit/{name}(name=${breed.name})}"
+                                           class="btn btn-outline-primary btn-sm" title="Edit" style="padding: 4px 8px; font-size: 0.9rem;">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <!-- Delete button - warning message removed -->
+                                        <a th:href="@{/goat/breed/delete/{name}(name=${breed.name})}"
+                                           class="btn btn-outline-danger btn-sm" style="padding: 4px 8px; font-size: 0.9rem;"
+                                           title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(breeds)}">
+                                <td colspan="9" class="text-center py-4 text-muted">
+                                    <i class="fas fa-goat fa-3x mb-2" style="color: #2e7d32;"></i>
+                                    <h5 style="font-size: 1.2rem;">No Goat Breeds Found</h5>
+                                    <p style="font-size: 0.9rem;">Your breeds catalog is empty.</p>
+                                    <a th:href="@{/goat/breed/new}" class="btn btn-success btn-sm">
+                                        <i class="fas fa-plus-circle me-2"></i> Add Your First Breed
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Summary Cards -->
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-2 mb-2" th:if="${!#lists.isEmpty(breeds)}">
+                        <div class="card bg-success text-white text-center" style="padding: 10px;">
+                            <div class="card-body py-2">
+                                <i class="fas fa-goat mb-1" style="font-size: 1.5rem;"></i>
+                                <h6 class="card-title mb-1" style="font-size: 0.9rem;">Total Breeds</h6>
+                                <h3 style="font-size: 1.8rem; margin: 5px 0;" th:text="${#lists.size(breeds)}">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <a th:href="@{/view_details}" class="home-btn">
+                            <i class="fas fa-home"></i> Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer text-center" style="padding: 10px; font-size: 0.85rem;">
+                <span><i class="fas fa-clock me-2"></i> Last updated: 
+                    <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm')}"></span>
+                </span>
+                <span class="mx-3">|</span>
+                <span><i class="fas fa-goat me-2"></i> Pure Goat Farm</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                bootstrap.Alert.getOrCreateInstance(alert).close();
+            });
+        }, 5000);
+        
+        console.log('%c🐐 Pure Goat Farms - Goat Breeds 🐐', 'color: #2e7d32; font-size: 14px; font-weight: bold;');
+    </script>
+</body>
+</html>
