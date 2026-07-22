@@ -1,17 +1,15 @@
-FROM eclipse-temurin:21-jdk AS build
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
 COPY . .
 
-RUN ./mvnw clean package -DskipTests
+RUN apt-get update && apt-get install -y maven
 
-FROM eclipse-temurin:21-jre
+RUN mvn clean package -DskipTests
 
-WORKDIR /app
+RUN cp target/*.jar app.jar
 
-COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
 
-EXPOSE 10000
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
